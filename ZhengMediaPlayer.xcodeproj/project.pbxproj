@@ -1169,7 +1169,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhengMediaPlayer/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhengMediaPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.goldtoutiao.Gold;
+				PRODUCT_BUNDLE_IDENTIFIER = LiBaoZheng.ZhengMediaPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1182,7 +1182,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/ZhengMediaPlayer/PrefixHeader.pch";
 				INFOPLIST_FILE = ZhengMediaPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.goldtoutiao.Gold;
+				PRODUCT_BUNDLE_IDENTIFIER = LiBaoZheng.ZhengMediaPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
