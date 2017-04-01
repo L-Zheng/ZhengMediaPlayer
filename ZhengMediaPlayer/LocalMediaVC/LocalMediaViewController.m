@@ -20,7 +20,13 @@
 
 - (ZhengPlayView *)zhengPlayView{
     if (!_zhengPlayView) {
-        _zhengPlayView = [[ZhengPlayView alloc] initWithFrame:CGRectMake(0, 128, self.view.bounds.size.width, 300) url:self.filePathUrl playViewType:PlayViewType_Local];
+        //宽高比 32：17
+        CGFloat scale = (32.0 / 17.0);
+        CGFloat zhengPlayViewX = 0;
+        CGFloat zhengPlayViewY = 128;
+        CGFloat zhengPlayViewW = self.view.bounds.size.width;
+        CGFloat zhengPlayViewH = (zhengPlayViewW - 40) / scale + 40;
+        _zhengPlayView = [[ZhengPlayView alloc] initWithFrame:CGRectMake(zhengPlayViewX, zhengPlayViewY, self.view.bounds.size.width, zhengPlayViewH) url:self.filePathUrl playViewType:PlayViewType_Local scale:scale];
         
 //        _zhengPlayView.backgroundColor = [UIColor orangeColor];
 //        _zhengPlayView.url = self.filePathUrl;
@@ -36,35 +42,17 @@
     
     [self.view addSubview:self.zhengPlayView];
     
-    __weak typeof(self) weakSelf = self;
-    
+    __weak __typeof__(self) weakSelf = self;
+
     self.zhengPlayView.fullBtnBlock = ^{
-        
-        ZhengFullPlayVC *fullVC = [[ZhengFullPlayVC alloc] init];
-        
-        __weak typeof(fullVC) weakFullVC = fullVC;
-        
-//        fullVC.exitFullBlock = ^{
-//            [weakSelf.view addSubview:weakSelf.zhengPlayView];
-//            
-//            [weakFullVC dismissViewControllerAnimated:YES completion:^{
-//                //调整坐标
-//                [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
-//                    weakSelf.zhengPlayView.frame = CGRectMake(0, 128, weakSelf.view.bounds.size.width, 300);
-//                    
-//                } completion:nil];
-//            }];
-//        };
-        
-        [weakSelf.zhengPlayView removeFromSuperview];
-        
-        [weakSelf presentViewController:fullVC animated:YES completion:^{
-            [fullVC.view addSubview:weakSelf.zhengPlayView];
-            //调整坐标
-            [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
-                weakSelf.zhengPlayView.frame = CGRectMake(0, 128, weakSelf.view.bounds.size.width, 300);
-                
-            } completion:nil];
+        //调整坐标
+        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
+            weakSelf.zhengPlayView.frame = CGRectMake(0, 0, weakSelf.view.bounds.size.height, weakSelf.view.bounds.size.width);
+            weakSelf.zhengPlayView.center = weakSelf.view.center;
+            weakSelf.zhengPlayView.transform = CGAffineTransformMakeRotation(M_PI_2);
+            
+        } completion:^(BOOL finished) {
+            
         }];
     };
 
@@ -76,15 +64,15 @@
     [self.zhengPlayView prepareToPlay];
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     [self.zhengPlayView shutdown];
 }
 
 #pragma mark - dealloc
 
 - (void)dealloc{
+    [ZhengNotificationTool removeNotification:self];
 }
 
 #pragma mark - UIInterface

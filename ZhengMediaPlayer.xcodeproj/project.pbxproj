@@ -66,8 +66,6 @@
 		0F1314C81E0399AF00F8FD0E /* YZLiveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1314C21E0399AF00F8FD0E /* YZLiveCell.m */; };
 		0F1314C91E0399AF00F8FD0E /* YZLiveCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1314C31E0399AF00F8FD0E /* YZLiveCell.xib */; };
 		0F1314CA1E0399AF00F8FD0E /* YZLiveItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1314C51E0399AF00F8FD0E /* YZLiveItem.m */; };
-		0F1314D11E039B0F00F8FD0E /* LiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1314D01E039B0F00F8FD0E /* LiveViewController.m */; };
-		0F1314D31E039E9700F8FD0E /* LiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0F1314D21E039E9700F8FD0E /* LiveViewController.xib */; };
 		0F1314E51E03ED9300F8FD0E /* LocalMediaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1314E41E03ED9300F8FD0E /* LocalMediaViewController.m */; };
 		0F1314E81E03EE3C00F8FD0E /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1314E71E03EE3C00F8FD0E /* Model.m */; };
 		0F1314F91E03F73A00F8FD0E /* ZhengNotificationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F1314F51E03F73A00F8FD0E /* ZhengNotificationTool.m */; };
@@ -101,7 +99,15 @@
 		0F73EC3E1E125E8300A3BC29 /* ZhengFullPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F73EC3D1E125E8300A3BC29 /* ZhengFullPlayVC.m */; };
 		0F7B4C861E0D2AAE00AADB72 /* mini_launchFullScreen_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7B4C841E0D2AAE00AADB72 /* mini_launchFullScreen_btn@2x.png */; };
 		0F7B4C871E0D2AAE00AADB72 /* mini_launchFullScreen_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7B4C851E0D2AAE00AADB72 /* mini_launchFullScreen_btn@3x.png */; };
-		0FA510661E2CA58F00E7FD94 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FA510631E2CA58A00E7FD94 /* IJKMediaFramework.framework */; };
+		0F9F34AF1E8117C200AB16E1 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9F34AC1E8117A700AB16E1 /* IJKMediaFramework.framework */; };
+		0FD708351E8F783100A3D756 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD708341E8F783100A3D756 /* ProgressView.m */; };
+		0FD708451E8F9C2E00A3D756 /* ZhengM3U8Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD708441E8F9C2E00A3D756 /* ZhengM3U8Player.m */; };
+		0FD7084C1E8F9D8C00A3D756 /* M3U8TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD7084B1E8F9D8C00A3D756 /* M3U8TableViewController.m */; };
+		0FD7084F1E8FA15300A3D756 /* ZhengNetWorkPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD7084E1E8FA15300A3D756 /* ZhengNetWorkPlayer.m */; };
+		0FD708521E8FA27400A3D756 /* M3U8PlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD708511E8FA27400A3D756 /* M3U8PlayViewController.m */; };
+		0FD708561E8FA29A00A3D756 /* LiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD708541E8FA29A00A3D756 /* LiveViewController.m */; };
+		0FD708571E8FA29A00A3D756 /* LiveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FD708551E8FA29A00A3D756 /* LiveViewController.xib */; };
+		0FD7085B1E8FA2D800A3D756 /* NetWorkPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD7085A1E8FA2D800A3D756 /* NetWorkPlayViewController.m */; };
 		0FE44F731E10C756003957C6 /* ZhengBasePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE44F6E1E10C756003957C6 /* ZhengBasePlayer.m */; };
 		0FE44F741E10C756003957C6 /* ZhengLivePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE44F701E10C756003957C6 /* ZhengLivePlayer.m */; };
 		0FE44F751E10C756003957C6 /* ZhengLocalPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FE44F721E10C756003957C6 /* ZhengLocalPlayer.m */; };
@@ -130,16 +136,16 @@
 			remoteGlobalIDString = 0F3C29531DFA7C88001A38F6;
 			remoteInfo = ZhengMediaPlayer;
 		};
-		0FA510621E2CA58A00E7FD94 /* PBXContainerItemProxy */ = {
+		0F9F34AB1E8117A700AB16E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0FA5105D1E2CA58A00E7FD94 /* IJKMediaPlayer.xcodeproj */;
+			containerPortal = 0F9F34A61E8117A700AB16E1 /* IJKMediaPlayer.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E654EA8A1B6B27E600B0F2D0;
 			remoteInfo = IJKMediaFramework;
 		};
-		0FA510641E2CA58A00E7FD94 /* PBXContainerItemProxy */ = {
+		0F9F34AD1E8117A700AB16E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0FA5105D1E2CA58A00E7FD94 /* IJKMediaPlayer.xcodeproj */;
+			containerPortal = 0F9F34A61E8117A700AB16E1 /* IJKMediaPlayer.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E654EA941B6B27E600B0F2D0;
 			remoteInfo = IJKMediaFrameworkTests;
@@ -268,9 +274,6 @@
 		0F1314C31E0399AF00F8FD0E /* YZLiveCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YZLiveCell.xib; sourceTree = "<group>"; };
 		0F1314C41E0399AF00F8FD0E /* YZLiveItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZLiveItem.h; sourceTree = "<group>"; };
 		0F1314C51E0399AF00F8FD0E /* YZLiveItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZLiveItem.m; sourceTree = "<group>"; };
-		0F1314CF1E039B0F00F8FD0E /* LiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewController.h; sourceTree = "<group>"; };
-		0F1314D01E039B0F00F8FD0E /* LiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewController.m; sourceTree = "<group>"; };
-		0F1314D21E039E9700F8FD0E /* LiveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveViewController.xib; sourceTree = "<group>"; };
 		0F1314E31E03ED9300F8FD0E /* LocalMediaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalMediaViewController.h; sourceTree = "<group>"; };
 		0F1314E41E03ED9300F8FD0E /* LocalMediaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalMediaViewController.m; sourceTree = "<group>"; };
 		0F1314E61E03EE3C00F8FD0E /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
@@ -319,7 +322,22 @@
 		0F73EC3D1E125E8300A3BC29 /* ZhengFullPlayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhengFullPlayVC.m; sourceTree = "<group>"; };
 		0F7B4C841E0D2AAE00AADB72 /* mini_launchFullScreen_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mini_launchFullScreen_btn@2x.png"; sourceTree = "<group>"; };
 		0F7B4C851E0D2AAE00AADB72 /* mini_launchFullScreen_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mini_launchFullScreen_btn@3x.png"; sourceTree = "<group>"; };
-		0FA5105D1E2CA58A00E7FD94 /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = "../ZhengPlayerFramework/ijkplayer-ios/ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj"; sourceTree = "<group>"; };
+		0F9F34A61E8117A700AB16E1 /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = "../ijkplayer-ios/ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj"; sourceTree = "<group>"; };
+		0FD708331E8F783100A3D756 /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
+		0FD708341E8F783100A3D756 /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
+		0FD708431E8F9C2E00A3D756 /* ZhengM3U8Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhengM3U8Player.h; sourceTree = "<group>"; };
+		0FD708441E8F9C2E00A3D756 /* ZhengM3U8Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhengM3U8Player.m; sourceTree = "<group>"; };
+		0FD7084A1E8F9D8C00A3D756 /* M3U8TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M3U8TableViewController.h; sourceTree = "<group>"; };
+		0FD7084B1E8F9D8C00A3D756 /* M3U8TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M3U8TableViewController.m; sourceTree = "<group>"; };
+		0FD7084D1E8FA15300A3D756 /* ZhengNetWorkPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhengNetWorkPlayer.h; sourceTree = "<group>"; };
+		0FD7084E1E8FA15300A3D756 /* ZhengNetWorkPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhengNetWorkPlayer.m; sourceTree = "<group>"; };
+		0FD708501E8FA27400A3D756 /* M3U8PlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M3U8PlayViewController.h; sourceTree = "<group>"; };
+		0FD708511E8FA27400A3D756 /* M3U8PlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M3U8PlayViewController.m; sourceTree = "<group>"; };
+		0FD708531E8FA29A00A3D756 /* LiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveViewController.h; sourceTree = "<group>"; };
+		0FD708541E8FA29A00A3D756 /* LiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveViewController.m; sourceTree = "<group>"; };
+		0FD708551E8FA29A00A3D756 /* LiveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LiveViewController.xib; sourceTree = "<group>"; };
+		0FD708591E8FA2D800A3D756 /* NetWorkPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkPlayViewController.h; sourceTree = "<group>"; };
+		0FD7085A1E8FA2D800A3D756 /* NetWorkPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkPlayViewController.m; sourceTree = "<group>"; };
 		0FE44F6D1E10C756003957C6 /* ZhengBasePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhengBasePlayer.h; sourceTree = "<group>"; };
 		0FE44F6E1E10C756003957C6 /* ZhengBasePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhengBasePlayer.m; sourceTree = "<group>"; };
 		0FE44F6F1E10C756003957C6 /* ZhengLivePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhengLivePlayer.h; sourceTree = "<group>"; };
@@ -347,7 +365,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0FA510661E2CA58F00E7FD94 /* IJKMediaFramework.framework in Frameworks */,
+				0F9F34AF1E8117C200AB16E1 /* IJKMediaFramework.framework in Frameworks */,
 				0F13142A1E03913C00F8FD0E /* libsqlite3.tbd in Frameworks */,
 				0F3C29D01DFAB7BD001A38F6 /* VideoToolbox.framework in Frameworks */,
 				0F3C29CE1DFAB7B6001A38F6 /* QuartzCore.framework in Frameworks */,
@@ -570,18 +588,11 @@
 				0F1314C01E0399AF00F8FD0E /* YZCreatorItem.m */,
 				0F1314C41E0399AF00F8FD0E /* YZLiveItem.h */,
 				0F1314C51E0399AF00F8FD0E /* YZLiveItem.m */,
+				0FD708531E8FA29A00A3D756 /* LiveViewController.h */,
+				0FD708541E8FA29A00A3D756 /* LiveViewController.m */,
+				0FD708551E8FA29A00A3D756 /* LiveViewController.xib */,
 			);
 			path = LiveListVC;
-			sourceTree = "<group>";
-		};
-		0F1314CE1E039B0F00F8FD0E /* LiveVC */ = {
-			isa = PBXGroup;
-			children = (
-				0F1314CF1E039B0F00F8FD0E /* LiveViewController.h */,
-				0F1314D01E039B0F00F8FD0E /* LiveViewController.m */,
-				0F1314D21E039E9700F8FD0E /* LiveViewController.xib */,
-			);
-			path = LiveVC;
 			sourceTree = "<group>";
 		};
 		0F1314E21E03ED2B00F8FD0E /* LocalMediaVC */ = {
@@ -637,7 +648,7 @@
 		0F3C294B1DFA7C88001A38F6 = {
 			isa = PBXGroup;
 			children = (
-				0FA5105D1E2CA58A00E7FD94 /* IJKMediaPlayer.xcodeproj */,
+				0F9F34A61E8117A700AB16E1 /* IJKMediaPlayer.xcodeproj */,
 				0F3C29561DFA7C88001A38F6 /* ZhengMediaPlayer */,
 				0F3C29731DFA7C89001A38F6 /* ZhengMediaPlayerTests */,
 				0F3C297E1DFA7C89001A38F6 /* ZhengMediaPlayerUITests */,
@@ -673,8 +684,9 @@
 				0F1314E71E03EE3C00F8FD0E /* Model.m */,
 				0F1314EC1E03F73A00F8FD0E /* ZhengMediaPlayer */,
 				0F1314BC1E0399AF00F8FD0E /* LiveListVC */,
-				0F1314CE1E039B0F00F8FD0E /* LiveVC */,
 				0F1314E21E03ED2B00F8FD0E /* LocalMediaVC */,
+				0FD708491E8F9D8C00A3D756 /* M3U8ListVC */,
+				0FD708581E8FA2C100A3D756 /* NetWorkVC */,
 				0FECA83C1DFEB28D00B1285A /* PrefixHeader.pch */,
 				0F3C29601DFA7C89001A38F6 /* Main.storyboard */,
 				0F3C29661DFA7C89001A38F6 /* Assets.xcassets */,
@@ -732,13 +744,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		0FA5105E1E2CA58A00E7FD94 /* Products */ = {
+		0F9F34A71E8117A700AB16E1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0FA510631E2CA58A00E7FD94 /* IJKMediaFramework.framework */,
-				0FA510651E2CA58A00E7FD94 /* IJKMediaFrameworkTests.xctest */,
+				0F9F34AC1E8117A700AB16E1 /* IJKMediaFramework.framework */,
+				0F9F34AE1E8117A700AB16E1 /* IJKMediaFrameworkTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0FD708491E8F9D8C00A3D756 /* M3U8ListVC */ = {
+			isa = PBXGroup;
+			children = (
+				0FD7084A1E8F9D8C00A3D756 /* M3U8TableViewController.h */,
+				0FD7084B1E8F9D8C00A3D756 /* M3U8TableViewController.m */,
+				0FD708501E8FA27400A3D756 /* M3U8PlayViewController.h */,
+				0FD708511E8FA27400A3D756 /* M3U8PlayViewController.m */,
+			);
+			path = M3U8ListVC;
+			sourceTree = "<group>";
+		};
+		0FD708581E8FA2C100A3D756 /* NetWorkVC */ = {
+			isa = PBXGroup;
+			children = (
+				0FD708591E8FA2D800A3D756 /* NetWorkPlayViewController.h */,
+				0FD7085A1E8FA2D800A3D756 /* NetWorkPlayViewController.m */,
+			);
+			path = NetWorkVC;
 			sourceTree = "<group>";
 		};
 		0FE44F6C1E10C756003957C6 /* ZhengPlayer */ = {
@@ -750,6 +782,10 @@
 				0FE44F701E10C756003957C6 /* ZhengLivePlayer.m */,
 				0FE44F711E10C756003957C6 /* ZhengLocalPlayer.h */,
 				0FE44F721E10C756003957C6 /* ZhengLocalPlayer.m */,
+				0FD708431E8F9C2E00A3D756 /* ZhengM3U8Player.h */,
+				0FD708441E8F9C2E00A3D756 /* ZhengM3U8Player.m */,
+				0FD7084D1E8FA15300A3D756 /* ZhengNetWorkPlayer.h */,
+				0FD7084E1E8FA15300A3D756 /* ZhengNetWorkPlayer.m */,
 			);
 			path = ZhengPlayer;
 			sourceTree = "<group>";
@@ -759,10 +795,12 @@
 			children = (
 				0FE44F771E10C786003957C6 /* ZhengPlayView.h */,
 				0FE44F781E10C786003957C6 /* ZhengPlayView.m */,
-				0FE44F791E10C786003957C6 /* ZhengProgressView.h */,
-				0FE44F7A1E10C786003957C6 /* ZhengProgressView.m */,
 				0FE44F7B1E10C786003957C6 /* ZhengTimeLabel.h */,
 				0FE44F7C1E10C786003957C6 /* ZhengTimeLabel.m */,
+				0FD708331E8F783100A3D756 /* ProgressView.h */,
+				0FD708341E8F783100A3D756 /* ProgressView.m */,
+				0FE44F791E10C786003957C6 /* ZhengProgressView.h */,
+				0FE44F7A1E10C786003957C6 /* ZhengProgressView.m */,
 				0FE44F7D1E10C786003957C6 /* ZhengVolumeView.h */,
 				0FE44F7E1E10C786003957C6 /* ZhengVolumeView.m */,
 				0F73EC301E121B9100A3BC29 /* ZhengBrightView.h */,
@@ -868,8 +906,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 0FA5105E1E2CA58A00E7FD94 /* Products */;
-					ProjectRef = 0FA5105D1E2CA58A00E7FD94 /* IJKMediaPlayer.xcodeproj */;
+					ProductGroup = 0F9F34A71E8117A700AB16E1 /* Products */;
+					ProjectRef = 0F9F34A61E8117A700AB16E1 /* IJKMediaPlayer.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -882,18 +920,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0FA510631E2CA58A00E7FD94 /* IJKMediaFramework.framework */ = {
+		0F9F34AC1E8117A700AB16E1 /* IJKMediaFramework.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = IJKMediaFramework.framework;
-			remoteRef = 0FA510621E2CA58A00E7FD94 /* PBXContainerItemProxy */;
+			remoteRef = 0F9F34AB1E8117A700AB16E1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		0FA510651E2CA58A00E7FD94 /* IJKMediaFrameworkTests.xctest */ = {
+		0F9F34AE1E8117A700AB16E1 /* IJKMediaFrameworkTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = IJKMediaFrameworkTests.xctest;
-			remoteRef = 0FA510641E2CA58A00E7FD94 /* PBXContainerItemProxy */;
+			remoteRef = 0F9F34AD1E8117A700AB16E1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -915,8 +953,8 @@
 				0FE44F881E10FFA6003957C6 /* full_pause_btn@2x.png in Resources */,
 				0FE44F8A1E10FFA6003957C6 /* full_play_btn@2x.png in Resources */,
 				0F73EC3B1E125BF200A3BC29 /* WeChatSight455.mp4 in Resources */,
-				0F1314D31E039E9700F8FD0E /* LiveViewController.xib in Resources */,
 				0FE44F891E10FFA6003957C6 /* full_pause_btn@3x.png in Resources */,
+				0FD708571E8FA29A00A3D756 /* LiveViewController.xib in Resources */,
 				0F3C29621DFA7C89001A38F6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -950,11 +988,11 @@
 				0FE44F821E10C786003957C6 /* ZhengVolumeView.m in Sources */,
 				0F1314281E03911900F8FD0E /* FMResultSet.m in Sources */,
 				0F1314151E03910600F8FD0E /* ZhengUploadRequest.m in Sources */,
-				0F1314D11E039B0F00F8FD0E /* LiveViewController.m in Sources */,
 				0F1314091E03910600F8FD0E /* ZhengCacheSQLite.m in Sources */,
 				0F13140E1E03910600F8FD0E /* ZhengBaseRequest.m in Sources */,
 				0F1314A91E03962100F8FD0E /* UIImage+WebP.m in Sources */,
 				0F1313F81E03910600F8FD0E /* AFSecurityPolicy.m in Sources */,
+				0FD708351E8F783100A3D756 /* ProgressView.m in Sources */,
 				0F1313FD1E03910600F8FD0E /* MJExtensionConst.m in Sources */,
 				0F13140B1E03910600F8FD0E /* ZhengParseTool.m in Sources */,
 				0F73EC321E121B9100A3BC29 /* ZhengBrightView.m in Sources */,
@@ -972,10 +1010,12 @@
 				0F3C295C1DFA7C88001A38F6 /* AppDelegate.m in Sources */,
 				0F1314241E03911900F8FD0E /* FMDatabase.m in Sources */,
 				0F13149D1E03962100F8FD0E /* MKAnnotationView+WebCache.m in Sources */,
+				0FD708561E8FA29A00A3D756 /* LiveViewController.m in Sources */,
 				0F13140F1E03910600F8FD0E /* ZhengDownloadRequest.m in Sources */,
 				0FE44F741E10C756003957C6 /* ZhengLivePlayer.m in Sources */,
 				0F1314E51E03ED9300F8FD0E /* LocalMediaViewController.m in Sources */,
 				0F73EC3E1E125E8300A3BC29 /* ZhengFullPlayVC.m in Sources */,
+				0FD7084C1E8F9D8C00A3D756 /* M3U8TableViewController.m in Sources */,
 				0F1314271E03911900F8FD0E /* FMDatabaseQueue.m in Sources */,
 				0F13140A1E03910600F8FD0E /* ZhengCacheTool.m in Sources */,
 				0F1314071E03910600F8FD0E /* ZhengCacheCoding.m in Sources */,
@@ -993,6 +1033,8 @@
 				0F3C29591DFA7C88001A38F6 /* main.m in Sources */,
 				0F1313FC1E03910600F8FD0E /* NSArray+Log.m in Sources */,
 				0F1313F61E03910600F8FD0E /* AFHTTPSessionManager.m in Sources */,
+				0FD708521E8FA27400A3D756 /* M3U8PlayViewController.m in Sources */,
+				0FD7085B1E8FA2D800A3D756 /* NetWorkPlayViewController.m in Sources */,
 				0F1314A21E03962100F8FD0E /* SDWebImageDownloader.m in Sources */,
 				0F1314021E03910600F8FD0E /* NSObject+MJClass.m in Sources */,
 				0F1314E81E03EE3C00F8FD0E /* Model.m in Sources */,
@@ -1005,6 +1047,7 @@
 				0FE44F7F1E10C786003957C6 /* ZhengPlayView.m in Sources */,
 				0F1314A31E03962100F8FD0E /* SDWebImageDownloaderOperation.m in Sources */,
 				0F23C6591E0943A7005A9390 /* UIView+ZhengExtension.m in Sources */,
+				0FD7084F1E8FA15300A3D756 /* ZhengNetWorkPlayer.m in Sources */,
 				0F1314121E03910600F8FD0E /* ZhengNetWork.m in Sources */,
 				0F1314A81E03962100F8FD0E /* UIImage+MultiFormat.m in Sources */,
 				0F1314AC1E03962100F8FD0E /* UIView+WebCacheOperation.m in Sources */,
@@ -1016,6 +1059,7 @@
 				0FE44F731E10C756003957C6 /* ZhengBasePlayer.m in Sources */,
 				0F1314C71E0399AF00F8FD0E /* YZCreatorItem.m in Sources */,
 				0F1314251E03911900F8FD0E /* FMDatabaseAdditions.m in Sources */,
+				0FD708451E8F9C2E00A3D756 /* ZhengM3U8Player.m in Sources */,
 				0F13149F1E03962100F8FD0E /* SDImageCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

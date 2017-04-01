@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "LiveListViewController.h"
 #import "LocalMediaViewController.h"
+#import "M3U8TableViewController.h"
+#import "NetWorkPlayViewController.h"
 #import "Model.h"
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -42,7 +44,15 @@
         model2.title = @"本地播放";
         model2.modelType = ModelType_Local;
         
-        _dataArray = [NSMutableArray arrayWithArray:@[model1,model2]];
+        Model *model3 = [[Model alloc] init];
+        model3.title = @"M3U8 视频 simple";
+        model3.modelType = ModelType_M3U8;
+        
+        Model *model4 = [[Model alloc] init];
+        model4.title = @"网络视频播放";
+        model4.modelType = ModelType_NetWork;
+        
+        _dataArray = [NSMutableArray arrayWithArray:@[model1,model2,model3,model4]];
     }
     return _dataArray;
 }
@@ -95,6 +105,20 @@
             LocalMediaViewController *localVC = [[LocalMediaViewController alloc] init];
             localVC.filePathUrl = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"WeChatSight455" ofType:@"mp4"]];
             [self.navigationController pushViewController:localVC animated:YES];
+        }
+            break;
+            
+        case ModelType_M3U8:{
+            M3U8TableViewController *vc = [[M3U8TableViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case ModelType_NetWork:{
+            NetWorkPlayViewController *vc = [[NetWorkPlayViewController alloc] init];
+//          @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+            vc.url = [NSURL URLWithString:@"http://flv2.bn.netease.com/videolib3/1602/24/AnIoH5484/SD/AnIoH5484-mobile.mp4"];
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             

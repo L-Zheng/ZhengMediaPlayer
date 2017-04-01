@@ -6,6 +6,8 @@
 //  Copyright © 2016年 李保征. All rights reserved.
 //
 
+//用于直播的类  IJKFFMoviePlayerController RTMP协议的视频
+
 #import "ZhengLivePlayer.h"
 
 @implementation ZhengLivePlayer

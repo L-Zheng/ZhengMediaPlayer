@@ -47,18 +47,4 @@ typedef NS_ENUM(NSInteger, ZhengPlayState) {
 
 @property (nonatomic,assign) CGFloat playbackBright;
 
-#pragma mark - ZhengPlayerProtocol
-
-//- (void)prepareToPlay;
-//
-//- (void)play;
-//
-//- (void)pause;
-//
-//- (void)stop;
-//
-//- (BOOL)isPlaying;
-//
-//- (void)shutdown;
-
 @end

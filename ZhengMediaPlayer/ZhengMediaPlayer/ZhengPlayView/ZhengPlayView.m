@@ -11,6 +11,8 @@
 #import "ZhengBasePlayer.h"
 #import "ZhengLivePlayer.h"
 #import "ZhengLocalPlayer.h"
+#import "ZhengM3U8Player.h"
+#import "ZhengNetWorkPlayer.h"
 
 #import "ZhengProgressView.h"
 #import "ZhengTimeLabel.h"
@@ -25,7 +27,12 @@ typedef NS_ENUM(NSInteger, AdjustType) {
     AdjustType_Bright             = 2,
 } NS_ENUM_AVAILABLE_IOS(6_0);
 
-@interface ZhengPlayView ()<ZhengProgressViewDelgate,ZhengVolumeViewDelgate,ZhengBrightViewDelgate>
+#define ProgressViewH 20
+#define VolumeViewH 20
+#define BrightViewH 20
+#define TimeLabelH 20
+
+@interface ZhengPlayView ()<ProgressViewDelgate>
 
 #pragma mark - 传递属性
 
@@ -34,12 +41,8 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 @property (nonatomic,assign) PlayViewType playViewType;
 
 #pragma mark - 自身属性
-
-@property (nonatomic,assign) AdjustType adjustType;
-
-@property (nonatomic,strong) ZhengBasePlayer *zhengPlayer;
-
-@property (nonatomic, strong) NSTimer *myTimer;
+//控件
+@property (nonatomic, strong) UIView *playBgView;
 
 @property (nonatomic, strong) ZhengTimeLabel *timeLabel;
 
@@ -52,9 +55,50 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 @property (nonatomic, strong) UIButton *fullScreenBtn;
 
 @property (nonatomic, strong) UIButton *playOrPauseBtn;
+
+//
+@property (nonatomic,assign) AdjustType adjustType;
+
+@property (nonatomic,strong) ZhengBasePlayer *zhengPlayer;
+
+@property (nonatomic, strong) NSTimer *myTimer;
+
 @end
 
 @implementation ZhengPlayView
+
+#pragma mark - init
+
+- (instancetype)initWithFrame:(CGRect)frame url:(NSURL *)url playViewType:(PlayViewType)playViewType scale:(CGFloat)scale{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor greenColor];
+        
+        self.url = url;
+        self.playViewType = playViewType;
+        
+        [ZhengNotificationTool removeNotification:self];
+        [self addPlayerNotification];
+        [self addApplicationNotification];
+        
+        self.zhengPlayer.url = self.url;
+        
+        UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(playViewGesture:)];
+        [self.playBgView addGestureRecognizer:gesture];
+        
+        self.zhengPlayer.playerView.frame = self.playBgView.bounds;
+        
+        [self addSubview:self.playBgView];
+        [self.playBgView addSubview:self.zhengPlayer.playerView];
+        [self addSubview:self.progressView];
+        [self addSubview:self.timeLabel];
+        [self addSubview:self.volumeView];
+        [self addSubview:self.brightView];
+        [self addSubview:self.fullScreenBtn];
+        [self addSubview:self.playOrPauseBtn];
+    }
+    return self;
+}
 
 #pragma mark - getter
 
@@ -70,6 +114,14 @@ typedef NS_ENUM(NSInteger, AdjustType) {
                 _zhengPlayer = [[ZhengLivePlayer alloc] init];
                 break;
                 
+            case PlayViewType_M3U8:
+                _zhengPlayer = [[ZhengM3U8Player alloc] init];
+                break;
+                
+            case PlayViewType_NetWork:
+                _zhengPlayer = [[ZhengNetWorkPlayer alloc] init];
+                break;
+                
             default:
                 break;
         }
@@ -77,11 +129,25 @@ typedef NS_ENUM(NSInteger, AdjustType) {
     return _zhengPlayer;
 }
 
+//控件
+- (UIView *)playBgView{
+    if (!_playBgView) {
+        CGFloat viewY = 0;
+        CGFloat viewH = self.bounds.size.height - ProgressViewH - TimeLabelH;
+        CGFloat viewX = BrightViewH;
+        CGFloat viewW = self.bounds.size.width - VolumeViewH - BrightViewH;
+        _playBgView = [[UIView alloc] initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
+        _playBgView.backgroundColor = [UIColor yellowColor];
+        _playBgView.clipsToBounds = YES;
+    }
+    return _playBgView;
+}
+
 - (ZhengTimeLabel *)timeLabel{
     if (!_timeLabel) {
-        CGFloat timeLabelX = self.zhengPlayer.playerView.frame.origin.x;
+        CGFloat timeLabelX = self.playBgView.frame.origin.x;
         
-        _timeLabel = [[ZhengTimeLabel alloc] initWithFrame:CGRectMake(timeLabelX, CGRectGetMaxY(self.progressView.frame) + 10, 200, 30)];
+        _timeLabel = [[ZhengTimeLabel alloc] initWithFrame:CGRectMake(timeLabelX, CGRectGetMaxY(self.progressView.frame), 200, TimeLabelH)];
         _timeLabel.isShowHour = NO;
     }
     return _timeLabel;
@@ -89,11 +155,11 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 
 - (ZhengProgressView *)progressView{
     if (!_progressView) {
-        CGFloat progressViewX = self.zhengPlayer.playerView.frame.origin.x;
-        CGFloat progressViewY = CGRectGetMaxY(self.zhengPlayer.playerView.frame);
-        CGFloat progressViewW = self.zhengPlayer.playerView.frame.size.width;
+        CGFloat progressViewX = self.playBgView.frame.origin.x;
+        CGFloat progressViewY = CGRectGetMaxY(self.playBgView.frame);
+        CGFloat progressViewW = self.playBgView.frame.size.width;
         
-        _progressView = [[ZhengProgressView alloc] initWithFrame:CGRectMake(progressViewX, progressViewY, progressViewW, 0)];
+        _progressView = [[ZhengProgressView alloc] initWithFrame:CGRectMake(progressViewX, progressViewY, progressViewW, ProgressViewH)];
         
         _progressView.delegate = self;
         
@@ -103,10 +169,10 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 
 - (ZhengVolumeView *)volumeView{
     if (!_volumeView) {
-        CGFloat volumeViewX = CGRectGetMaxX(self.zhengPlayer.playerView.frame) + 10;
-        CGFloat volumeViewY = CGRectGetMaxY(self.zhengPlayer.playerView.frame) - 10;
+        CGFloat volumeViewX = CGRectGetMaxX(self.playBgView.frame) + VolumeViewH * 0.5;
+        CGFloat volumeViewY = CGRectGetMaxY(self.playBgView.frame) - 10;
         
-        _volumeView = [[ZhengVolumeView alloc] initWithFrame:CGRectMake(volumeViewX, volumeViewY, 0, 0)];
+        _volumeView = [[ZhengVolumeView alloc] initWithFrame:CGRectMake(volumeViewX, volumeViewY, 130, VolumeViewH)];
         
         _volumeView.delegate = self;
         
@@ -120,10 +186,10 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 
 - (ZhengBrightView *)brightView{
     if (!_brightView) {
-        CGFloat brightViewX = 10;
-        CGFloat brightViewY = CGRectGetMaxY(self.zhengPlayer.playerView.frame) - 10;
+        CGFloat brightViewX = BrightViewH * 0.5;
+        CGFloat brightViewY = CGRectGetMaxY(self.playBgView.frame) - 10;
         
-        _brightView = [[ZhengBrightView alloc] initWithFrame:CGRectMake(brightViewX, brightViewY, 0, 0)];
+        _brightView = [[ZhengBrightView alloc] initWithFrame:CGRectMake(brightViewX, brightViewY, 130, BrightViewH)];
         
         _brightView.delegate = self;
         
@@ -140,8 +206,8 @@ typedef NS_ENUM(NSInteger, AdjustType) {
         
         CGFloat fullScreenBtnX = CGRectGetMaxX(self.timeLabel.frame) + 20;
         CGFloat fullScreenBtnY = self.timeLabel.frame.origin.y;
-        CGFloat fullScreenBtnW = 50;
-        CGFloat fullScreenBtnH = 40;
+        CGFloat fullScreenBtnW = 20;
+        CGFloat fullScreenBtnH = 20;
         
         _fullScreenBtn = [[UIButton alloc] initWithFrame:CGRectMake(fullScreenBtnX, fullScreenBtnY, fullScreenBtnW, fullScreenBtnH)];
         _fullScreenBtn.backgroundColor = [UIColor orangeColor];
@@ -160,7 +226,7 @@ typedef NS_ENUM(NSInteger, AdjustType) {
     if (!_playOrPauseBtn) {
         CGFloat playOrPauseBtnX = CGRectGetMaxX(self.fullScreenBtn.frame) + 20;
         CGFloat playOrPauseBtnY = self.timeLabel.frame.origin.y;
-        CGFloat playOrPauseBtnW = 50;
+        CGFloat playOrPauseBtnW = 20;
         CGFloat playOrPauseBtnH = playOrPauseBtnW;
         
         _playOrPauseBtn = [[UIButton alloc] initWithFrame:CGRectMake(playOrPauseBtnX, playOrPauseBtnY, playOrPauseBtnW, playOrPauseBtnH)];
@@ -174,47 +240,6 @@ typedef NS_ENUM(NSInteger, AdjustType) {
         [_playOrPauseBtn addTarget:self action:@selector(playOrPauseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _playOrPauseBtn;
-}
-
-#pragma mark - init
-
-- (instancetype)initWithFrame:(CGRect)frame url:(NSURL *)url playViewType:(PlayViewType)playViewType{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor greenColor];
-        
-        self.url = url;
-        self.playViewType = playViewType;
-        
-        [ZhengNotificationTool removeNotification:self];
-        [self addPlayerNotification];
-        [self addApplicationNotification];
-        
-        self.zhengPlayer.url = self.url;
-        
-        //比例32：17
-        CGFloat playerViewW = self.bounds.size.width - 2 * 20;
-        CGFloat playerViewH = playerViewW * 17 / 32;
-        self.zhengPlayer.playerView.frame = CGRectMake(20, 0, playerViewW, playerViewH);
-        
-        UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(playViewGesture:)];
-        [self.zhengPlayer.playerView addGestureRecognizer:gesture];
-        
-        [self addSubview:self.zhengPlayer.playerView];
-        [self addSubview:self.progressView];
-        [self addSubview:self.timeLabel];
-        [self addSubview:self.volumeView];
-        [self addSubview:self.brightView];
-        [self addSubview:self.fullScreenBtn];
-        [self addSubview:self.playOrPauseBtn];
-    }
-    return self;
-}
-
-#pragma mark - setter
-
-- (void)setUrl:(NSURL *)url{
-    _url = url;
 }
 
 #pragma mark - Public Func
@@ -365,7 +390,7 @@ static CGFloat originBright = 0;
     originVolume = self.zhengPlayer.playbackVolume;
     originBright = self.zhengPlayer.playbackBright;
     
-    CGFloat playViewWidth = self.zhengPlayer.playerView.bounds.size.width;
+    CGFloat playViewWidth = self.playBgView.bounds.size.width;
     CGPoint touchPoint = [panGesture locationInView:panGesture.view];
     
     if (touchPoint.x > playViewWidth * 0.5) {
@@ -401,8 +426,6 @@ static CGFloat originBright = 0;
             self.adjustType = AdjustType_GoForwardBack;
         }
         isSureAdjustType = YES;
-        
-        [self removeTimer];
     }
     
     if (isSureAdjustType) {
@@ -416,8 +439,10 @@ static CGFloat originBright = 0;
                 [self setUpPlayerBright];
                 break;
                 
-            case AdjustType_GoForwardBack:
+            case AdjustType_GoForwardBack:{
+                [self removeTimer];
                 [self setUpPlayerGoForwardBack];
+            }
                 break;
                 
             default:
@@ -498,10 +523,37 @@ static CGFloat originBright = 0;
     [self.timeLabel setTimeWithCurrentTime:currentTime durationTime:self.zhengPlayer.duration];
 }
 
-#pragma mark - ZhengProgressViewDelgate
+#pragma mark - ProgressViewDelgate
 
-- (void)zhengProgressView:(ZhengProgressView *)zhengProgressView bgViewTapGesture:(UITapGestureRecognizer *)tapGesture progressValue:(CGFloat)progressValue{
-    
+- (void)progressView:(ProgressView *)progressView bgViewTapGesture:(UITapGestureRecognizer *)tapGesture progressValue:(CGFloat)progressValue{
+    if ([progressView isKindOfClass:[ZhengProgressView class]]) {
+        [self handleTapProgressView:tapGesture progressValue:progressValue];
+    }else if ([progressView isKindOfClass:[ZhengVolumeView class]]){
+        [self handleTapVolumeView:tapGesture progressValue:progressValue];
+        
+    }else if ([progressView isKindOfClass:[ZhengBrightView class]]){
+        [self handleTapBrightView:tapGesture progressValue:progressValue];
+    }else{
+        
+    }
+}
+
+- (void)progressView:(ProgressView *)progressView indicatorButtonPanGesture:(UIPanGestureRecognizer *)panGesture progressValue:(CGFloat)progressValue{
+    if ([progressView isKindOfClass:[ZhengProgressView class]]) {
+        [self handlePanProgressView:panGesture progressValue:progressValue];
+    }else if ([progressView isKindOfClass:[ZhengVolumeView class]]){
+        [self handlePanVolumeView:panGesture progressValue:progressValue];
+        
+    }else if ([progressView isKindOfClass:[ZhengBrightView class]]){
+        [self handlePanBrightView:panGesture progressValue:progressValue];
+    }else{
+        
+    }
+}
+
+//ProgressView
+- (void)handleTapProgressView:(UITapGestureRecognizer *)tapGesture progressValue:(CGFloat)progressValue{
+
     [self removeTimer];
     
     [self refreshTimeLabel];
@@ -510,8 +562,7 @@ static CGFloat originBright = 0;
     
     [self addTimer];
 }
-
-- (void)zhengProgressView:(ZhengProgressView *)zhengProgressView indicatorButtonPanGesture:(UIPanGestureRecognizer *)panGesture progressValue:(CGFloat)progressValue{
+- (void)handlePanProgressView:(UIPanGestureRecognizer *)panGesture progressValue:(CGFloat)progressValue{
     
     [self refreshTimeLabel];
     
@@ -528,24 +579,20 @@ static CGFloat originBright = 0;
     }
 }
 
-#pragma mark - ZhengVolumeViewDelgate
-
-- (void)zhengVolumeView:(ZhengVolumeView *)zhengVolumeView bgViewTapGesture:(UITapGestureRecognizer *)tapGesture volumeValue:(CGFloat)volumeValue{
-    self.zhengPlayer.playbackVolume = volumeValue;
+//VolumeView
+- (void)handleTapVolumeView:(UITapGestureRecognizer *)tapGesture progressValue:(CGFloat)progressValue{
+    self.zhengPlayer.playbackVolume = progressValue;
+}
+- (void)handlePanVolumeView:(UIPanGestureRecognizer *)panGesture progressValue:(CGFloat)progressValue{
+    self.zhengPlayer.playbackVolume = progressValue;
 }
 
-- (void)zhengVolumeView:(ZhengVolumeView *)zhengVolumeView indicatorButtonPanGesture:(UIPanGestureRecognizer *)panGesture volumeValue:(CGFloat)volumeValue{
-    self.zhengPlayer.playbackVolume = volumeValue;
+//BrightView
+- (void)handleTapBrightView:(UITapGestureRecognizer *)tapGesture progressValue:(CGFloat)progressValue{
+    self.zhengPlayer.playbackBright = progressValue;
 }
-
-#pragma mark - ZhengBrightViewDelgate
-
-- (void)zhengBrightView:(ZhengBrightView *)zhengBrightView bgViewTapGesture:(UITapGestureRecognizer *)tapGesture brightValue:(CGFloat)brightValue{
-    self.zhengPlayer.playbackBright = brightValue;
-}
-
-- (void)zhengBrightView:(ZhengBrightView *)zhengBrightView indicatorButtonPanGesture:(UIPanGestureRecognizer *)panGesture brightValue:(CGFloat)brightValue{
-    self.zhengPlayer.playbackBright = brightValue;
+- (void)handlePanBrightView:(UIPanGestureRecognizer *)panGesture progressValue:(CGFloat)progressValue{
+    self.zhengPlayer.playbackBright = progressValue;
 }
 
 #pragma mark - Notification
@@ -648,7 +695,6 @@ static CGFloat originBright = 0;
             break;
     }
 }
-
 
 - (void)applicationWillResignActive{
     [self pause];

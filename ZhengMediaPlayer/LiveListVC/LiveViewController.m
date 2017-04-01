@@ -53,12 +53,11 @@
     [self.zhengLivePlayer prepareToPlay];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     // 界面消失，一定要记得停止播放
-//    [self.zhengLivePlayer pause];
-//    [self.zhengLivePlayer stop];
+    //    [self.zhengLivePlayer pause];
+    //    [self.zhengLivePlayer stop];
     [self.zhengLivePlayer shutdown];
     
     [ZhengNotificationTool removeNotification:self];

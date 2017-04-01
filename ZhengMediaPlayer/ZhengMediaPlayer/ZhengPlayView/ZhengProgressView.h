@@ -6,21 +6,8 @@
 //  Copyright © 2016年 李保征. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ProgressView.h"
 
-@class ZhengProgressView;
-@protocol ZhengProgressViewDelgate <NSObject>
-
-- (void)zhengProgressView:(ZhengProgressView *)zhengProgressView bgViewTapGesture:(UITapGestureRecognizer *)tapGesture progressValue:(CGFloat)progressValue;
-
-- (void)zhengProgressView:(ZhengProgressView *)zhengProgressView indicatorButtonPanGesture:(UIPanGestureRecognizer *)panGesture progressValue:(CGFloat)progressValue;
-
-@end
-
-@interface ZhengProgressView : UIView
-
-@property (nonatomic,weak) id <ZhengProgressViewDelgate> delegate;
-
-@property(nonatomic) float value;
+@interface ZhengProgressView : ProgressView
 
 @end
