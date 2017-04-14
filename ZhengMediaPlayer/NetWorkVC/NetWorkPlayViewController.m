@@ -56,6 +56,12 @@
     [self.zhengPlayView shutdown];
 }
 
+#pragma mark - UIInterface
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
 #pragma mark - dealloc
 
 - (void)dealloc{

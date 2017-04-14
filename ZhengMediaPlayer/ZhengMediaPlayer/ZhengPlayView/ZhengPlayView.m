@@ -19,8 +19,6 @@
 #import "ZhengVolumeView.h"
 #import "ZhengBrightView.h"
 
-#import "ZhengFullPlayVC.h"
-
 typedef NS_ENUM(NSInteger, AdjustType) {
     AdjustType_GoForwardBack      = 0,
     AdjustType_Volume             = 1,
@@ -56,12 +54,17 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 
 @property (nonatomic, strong) UIButton *playOrPauseBtn;
 
+@property (nonatomic, strong) UIButton *modeInfoBtn;
+
 //
 @property (nonatomic,assign) AdjustType adjustType;
 
 @property (nonatomic,strong) ZhengBasePlayer *zhengPlayer;
 
 @property (nonatomic, strong) NSTimer *myTimer;
+
+//记录进入后台前的播放状态
+@property (nonatomic, assign) BOOL isPlayingWhenResignActive;
 
 @end
 
@@ -76,6 +79,7 @@ typedef NS_ENUM(NSInteger, AdjustType) {
         
         self.url = url;
         self.playViewType = playViewType;
+        self.playViewStatus = PlayViewStatus_Portrait;
         
         [ZhengNotificationTool removeNotification:self];
         [self addPlayerNotification];
@@ -83,10 +87,10 @@ typedef NS_ENUM(NSInteger, AdjustType) {
         
         self.zhengPlayer.url = self.url;
         
-        UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(playViewGesture:)];
-        [self.playBgView addGestureRecognizer:gesture];
+        //防止self.zhengPlayer.playerView上面有手势操作  会拦截掉gesture  禁止掉
+        self.zhengPlayer.playerView.userInteractionEnabled = NO;
         
-        self.zhengPlayer.playerView.frame = self.playBgView.bounds;
+        self.zhengPlayer.player.scalingMode = IJKMPMovieScalingModeAspectFit;
         
         [self addSubview:self.playBgView];
         [self.playBgView addSubview:self.zhengPlayer.playerView];
@@ -96,6 +100,9 @@ typedef NS_ENUM(NSInteger, AdjustType) {
         [self addSubview:self.brightView];
         [self addSubview:self.fullScreenBtn];
         [self addSubview:self.playOrPauseBtn];
+        [self addSubview:self.modeInfoBtn];
+        
+        [self handleSubViewFrame];
     }
     return self;
 }
@@ -132,22 +139,23 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 //控件
 - (UIView *)playBgView{
     if (!_playBgView) {
-        CGFloat viewY = 0;
-        CGFloat viewH = self.bounds.size.height - ProgressViewH - TimeLabelH;
-        CGFloat viewX = BrightViewH;
-        CGFloat viewW = self.bounds.size.width - VolumeViewH - BrightViewH;
-        _playBgView = [[UIView alloc] initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
+        _playBgView = [[UIView alloc] init];
         _playBgView.backgroundColor = [UIColor yellowColor];
         _playBgView.clipsToBounds = YES;
+        
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(playViewPanGesture:)];
+        [_playBgView addGestureRecognizer:panGesture];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playViewTapGesture:)];
+        [_playBgView addGestureRecognizer:tapGesture];
+        
     }
     return _playBgView;
 }
 
 - (ZhengTimeLabel *)timeLabel{
     if (!_timeLabel) {
-        CGFloat timeLabelX = self.playBgView.frame.origin.x;
-        
-        _timeLabel = [[ZhengTimeLabel alloc] initWithFrame:CGRectMake(timeLabelX, CGRectGetMaxY(self.progressView.frame), 200, TimeLabelH)];
+        _timeLabel = [[ZhengTimeLabel alloc] init];
         _timeLabel.isShowHour = NO;
     }
     return _timeLabel;
@@ -155,47 +163,24 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 
 - (ZhengProgressView *)progressView{
     if (!_progressView) {
-        CGFloat progressViewX = self.playBgView.frame.origin.x;
-        CGFloat progressViewY = CGRectGetMaxY(self.playBgView.frame);
-        CGFloat progressViewW = self.playBgView.frame.size.width;
-        
-        _progressView = [[ZhengProgressView alloc] initWithFrame:CGRectMake(progressViewX, progressViewY, progressViewW, ProgressViewH)];
-        
+        _progressView = [[ZhengProgressView alloc] init];
         _progressView.delegate = self;
-        
     }
     return _progressView;
 }
 
 - (ZhengVolumeView *)volumeView{
     if (!_volumeView) {
-        CGFloat volumeViewX = CGRectGetMaxX(self.playBgView.frame) + VolumeViewH * 0.5;
-        CGFloat volumeViewY = CGRectGetMaxY(self.playBgView.frame) - 10;
-        
-        _volumeView = [[ZhengVolumeView alloc] initWithFrame:CGRectMake(volumeViewX, volumeViewY, 130, VolumeViewH)];
-        
+        _volumeView = [[ZhengVolumeView alloc] init];
         _volumeView.delegate = self;
-        
-        _volumeView.layer.anchorPoint = CGPointMake(0, 0.5);
-        _volumeView.layer.position = CGPointMake(volumeViewX, volumeViewY);
-        _volumeView.transform = CGAffineTransformMakeRotation(-M_PI_2);
-        
     }
     return _volumeView;
 }
 
 - (ZhengBrightView *)brightView{
     if (!_brightView) {
-        CGFloat brightViewX = BrightViewH * 0.5;
-        CGFloat brightViewY = CGRectGetMaxY(self.playBgView.frame) - 10;
-        
-        _brightView = [[ZhengBrightView alloc] initWithFrame:CGRectMake(brightViewX, brightViewY, 130, BrightViewH)];
-        
+        _brightView = [[ZhengBrightView alloc] init];
         _brightView.delegate = self;
-        
-        _brightView.layer.anchorPoint = CGPointMake(0, 0.5);
-        _brightView.layer.position = CGPointMake(brightViewX, brightViewY);
-        _brightView.transform = CGAffineTransformMakeRotation(-M_PI_2);
         
     }
     return _brightView;
@@ -203,13 +188,7 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 
 - (UIButton *)fullScreenBtn{
     if (!_fullScreenBtn) {
-        
-        CGFloat fullScreenBtnX = CGRectGetMaxX(self.timeLabel.frame) + 20;
-        CGFloat fullScreenBtnY = self.timeLabel.frame.origin.y;
-        CGFloat fullScreenBtnW = 20;
-        CGFloat fullScreenBtnH = 20;
-        
-        _fullScreenBtn = [[UIButton alloc] initWithFrame:CGRectMake(fullScreenBtnX, fullScreenBtnY, fullScreenBtnW, fullScreenBtnH)];
+        _fullScreenBtn = [[UIButton alloc] init];
         _fullScreenBtn.backgroundColor = [UIColor orangeColor];
         
         [_fullScreenBtn setImage:[UIImage imageNamed:@"mini_launchFullScreen_btn"] forState:UIControlStateNormal];
@@ -217,19 +196,13 @@ typedef NS_ENUM(NSInteger, AdjustType) {
         _fullScreenBtn.adjustsImageWhenHighlighted = YES;
         
         [_fullScreenBtn addTarget:self action:@selector(fullScreenBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        
     }
     return _fullScreenBtn;
 }
 
 - (UIButton *)playOrPauseBtn{
     if (!_playOrPauseBtn) {
-        CGFloat playOrPauseBtnX = CGRectGetMaxX(self.fullScreenBtn.frame) + 20;
-        CGFloat playOrPauseBtnY = self.timeLabel.frame.origin.y;
-        CGFloat playOrPauseBtnW = 20;
-        CGFloat playOrPauseBtnH = playOrPauseBtnW;
-        
-        _playOrPauseBtn = [[UIButton alloc] initWithFrame:CGRectMake(playOrPauseBtnX, playOrPauseBtnY, playOrPauseBtnW, playOrPauseBtnH)];
+        _playOrPauseBtn = [[UIButton alloc] init];
         _playOrPauseBtn.backgroundColor = [UIColor cyanColor];
         
         _playOrPauseBtn.adjustsImageWhenHighlighted = NO;
@@ -240,6 +213,21 @@ typedef NS_ENUM(NSInteger, AdjustType) {
         [_playOrPauseBtn addTarget:self action:@selector(playOrPauseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _playOrPauseBtn;
+}
+
+- (UIButton *)modeInfoBtn{
+    if (!_modeInfoBtn) {
+        _modeInfoBtn = [[UIButton alloc] init];
+        _modeInfoBtn.backgroundColor = [UIColor orangeColor];
+        
+        [_modeInfoBtn setTitle:@"等比例缩放适应" forState:UIControlStateNormal];
+        [_modeInfoBtn setTitle:@"等比例缩放铺满裁剪" forState:UIControlStateSelected];
+        _modeInfoBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+        [_modeInfoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        
+        [_modeInfoBtn addTarget:self action:@selector(modeInfoBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _modeInfoBtn;
 }
 
 #pragma mark - Public Func
@@ -320,7 +308,6 @@ typedef NS_ENUM(NSInteger, AdjustType) {
 }
 
 - (void)refreshTimeLabel{
-    
     NSTimeInterval currentTime = self.progressView.value * self.zhengPlayer.duration;
     
     [self.timeLabel setTimeWithCurrentTime:currentTime durationTime:self.zhengPlayer.duration];
@@ -330,13 +317,92 @@ typedef NS_ENUM(NSInteger, AdjustType) {
     self.playOrPauseBtn.selected = !isPlaying;
 }
 
+- (void)handleSubViewFrame{
+    //这里面不设置center  只设置frame  否则会影响全屏旋转动画不连贯
+    /*  self.bounds.size.height  这里的bounds不能换成frame
+     外部设置了bounds并没有设置frame   bounds.size不等于frame.size
+     */
+    CGFloat viewY = 0;
+    CGFloat viewH = self.bounds.size.height - ProgressViewH - TimeLabelH;
+    CGFloat viewX = BrightViewH;
+    CGFloat viewW = self.bounds.size.width - VolumeViewH - BrightViewH;
+    self.playBgView.frame = CGRectMake(viewX, viewY, viewW, viewH);
+    
+    CGFloat playerViewW = self.playBgView.width - 20;
+    CGFloat playerViewH = self.playBgView.height - 20;
+    CGFloat playerViewX = self.playBgView.width * 0.5 - playerViewW * 0.5;
+    CGFloat playerViewY = self.playBgView.height * 0.5 - playerViewH * 0.5;
+    self.zhengPlayer.playerView.frame = CGRectMake(playerViewX, playerViewY, playerViewW, playerViewH);
+    
+    CGFloat progressViewX = self.playBgView.frame.origin.x;
+    CGFloat progressViewY = CGRectGetMaxY(self.playBgView.frame);
+    CGFloat progressViewW = self.playBgView.frame.size.width;
+    self.progressView.frame = CGRectMake(progressViewX, progressViewY, progressViewW, ProgressViewH);
+    
+    CGFloat timeLabelX = self.playBgView.frame.origin.x;
+    self.timeLabel.frame = CGRectMake(timeLabelX, CGRectGetMaxY(self.progressView.frame), 200, TimeLabelH);
+    
+    CGFloat volumeViewW = 130;
+    CGFloat volumeViewX = self.bounds.size.width - ((self.bounds.size.width - CGRectGetMaxX(self.playBgView.frame)) * 0.5) - volumeViewW * 0.5;
+    CGFloat volumeViewY = CGRectGetMaxY(self.playBgView.frame) - volumeViewW * 0.5 - VolumeViewH * 0.5;
+    self.volumeView.transform = CGAffineTransformIdentity;
+    self.volumeView.frame = CGRectMake(volumeViewX, volumeViewY, volumeViewW, VolumeViewH);
+    self.volumeView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    
+    CGFloat brightViewW = 130;
+    CGFloat brightViewX = BrightViewH * 0.5 - brightViewW * 0.5;
+    CGFloat brightViewY = CGRectGetMaxY(self.playBgView.frame) - brightViewW * 0.5 - BrightViewH * 0.5;
+    self.brightView.transform = CGAffineTransformIdentity;
+    self.brightView.frame = CGRectMake(brightViewX, brightViewY, brightViewW, BrightViewH);
+    self.brightView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    
+    CGFloat fullScreenBtnX = CGRectGetMaxX(self.timeLabel.frame) + 5;
+    CGFloat fullScreenBtnY = self.timeLabel.frame.origin.y;
+    CGFloat fullScreenBtnW = 20;
+    CGFloat fullScreenBtnH = 20;
+    self.fullScreenBtn.frame = CGRectMake(fullScreenBtnX, fullScreenBtnY, fullScreenBtnW, fullScreenBtnH);
+    
+    CGFloat playOrPauseBtnX = CGRectGetMaxX(self.fullScreenBtn.frame) + 5;
+    CGFloat playOrPauseBtnY = self.timeLabel.frame.origin.y;
+    CGFloat playOrPauseBtnW = 20;
+    CGFloat playOrPauseBtnH = playOrPauseBtnW;
+    self.playOrPauseBtn.frame = CGRectMake(playOrPauseBtnX, playOrPauseBtnY, playOrPauseBtnW, playOrPauseBtnH);
+    
+    CGFloat btnX = CGRectGetMaxX(self.playOrPauseBtn.frame) + 5;
+    CGFloat btnY = self.timeLabel.frame.origin.y;
+    CGFloat btnW = self.bounds.size.width - btnX;
+    CGFloat btnH = 20;
+    self.modeInfoBtn.frame = CGRectMake(btnX, btnY, btnW, btnH);
+}
+
 #pragma mark - Action
 
 - (void)fullScreenBtnClick:(UIButton *)btn{
-    if (self.fullBtnBlock) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.fullBtnBlock();
-        });
+    if (!btn.selected) { //进入全屏
+        [self enterFullScreen];
+    }else{ //退出全屏
+        [self exitFullScreen];
+    }
+    btn.selected = !btn.selected;
+}
+
+- (void)enterFullScreen{
+    if (self.playViewStatus == PlayViewStatus_Portrait) {
+        if (self.rotationBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.rotationBlock(self,YES);
+            });
+        }
+    }
+}
+
+- (void)exitFullScreen{
+    if (self.playViewStatus == PlayViewStatus_FullScreen) {
+        if (self.rotationBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.rotationBlock(self,NO);
+            });
+        }
     }
 }
 
@@ -348,27 +414,44 @@ typedef NS_ENUM(NSInteger, AdjustType) {
     }
 }
 
-- (void)playViewGesture:(UIPanGestureRecognizer *)panGesture{
+- (void)modeInfoBtnClick:(UIButton *)btn{
+    
+    btn.selected = !btn.selected;
+    
+    if (self.zhengPlayer.player.scalingMode == IJKMPMovieScalingModeAspectFit) {
+        self.zhengPlayer.player.scalingMode = IJKMPMovieScalingModeAspectFill;
+    }else if (self.zhengPlayer.player.scalingMode == IJKMPMovieScalingModeAspectFill){
+        self.zhengPlayer.player.scalingMode = IJKMPMovieScalingModeAspectFit;
+    }else{
+        
+    }
+}
+
+- (void)playViewTapGesture:(UIPanGestureRecognizer *)panGesture{
+    [self isPlaying] ? [self pause] : [self play];
+}
+
+- (void)playViewPanGesture:(UIPanGestureRecognizer *)panGesture{
     
     switch (panGesture.state) {
         case UIGestureRecognizerStateBegan:
-            [self handleGestureBegan:panGesture];
+            [self handlePanGestureBegan:panGesture];
             break;
             
         case UIGestureRecognizerStateChanged:
-            [self handleGestureChanged:panGesture];
+            [self handlePanGestureChanged:panGesture];
             break;
             
         case UIGestureRecognizerStateEnded:
-            [self handleGestureEnded:panGesture];
+            [self handlePanGestureEnded:panGesture];
             break;
             
         case UIGestureRecognizerStateCancelled:
-            [self handleGestureEnded:panGesture];
+            [self handlePanGestureEnded:panGesture];
             break;
             
         case UIGestureRecognizerStateFailed:
-            [self handleGestureEnded:panGesture];
+            [self handlePanGestureEnded:panGesture];
             break;
             
         default:
@@ -382,7 +465,7 @@ static BOOL isSureAdjustType;
 static float originVolume = 0;
 static CGFloat originBright = 0;
 
-- (void)handleGestureBegan:(UIPanGestureRecognizer *)panGesture{
+- (void)handlePanGestureBegan:(UIPanGestureRecognizer *)panGesture{
     
     gestureDistanceHorizontal = 0;
     gestureDistanceVertical = 0;
@@ -390,7 +473,7 @@ static CGFloat originBright = 0;
     originVolume = self.zhengPlayer.playbackVolume;
     originBright = self.zhengPlayer.playbackBright;
     
-    CGFloat playViewWidth = self.playBgView.bounds.size.width;
+    CGFloat playViewWidth = self.playBgView.frame.size.width;
     CGPoint touchPoint = [panGesture locationInView:panGesture.view];
     
     if (touchPoint.x > playViewWidth * 0.5) {
@@ -402,7 +485,7 @@ static CGFloat originBright = 0;
     }
 }
 
-- (void)handleGestureChanged:(UIPanGestureRecognizer *)panGesture{
+- (void)handlePanGestureChanged:(UIPanGestureRecognizer *)panGesture{
     // 获得挪动的距离
     CGPoint movePoint = [panGesture translationInView:panGesture.view];
     [panGesture setTranslation:CGPointZero inView:panGesture.view];
@@ -451,7 +534,7 @@ static CGFloat originBright = 0;
     }
 }
 
-- (void)handleGestureEnded:(UIPanGestureRecognizer *)panGesture{
+- (void)handlePanGestureEnded:(UIPanGestureRecognizer *)panGesture{
     //设置快进快退
     switch (self.adjustType) {
         case AdjustType_GoForwardBack:
@@ -697,11 +780,24 @@ static CGFloat originBright = 0;
 }
 
 - (void)applicationWillResignActive{
-    [self pause];
+    //取消激活
+    
+    //保留状态
+    self.isPlayingWhenResignActive = [self isPlaying];
+    if ([self isPlaying]) {
+        [self pause];
+    }
 }
 
 - (void)applicationDidBecomeActive{
-    [self play];
+    //进入激活
+    
+    if (self.isPlayingWhenResignActive) {
+        //进入后台前正在播放
+        [self play];
+    }else{
+        //进入后台前已经暂停
+    }
 }
 
 #pragma mark - dealloc

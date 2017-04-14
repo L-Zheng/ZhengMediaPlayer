@@ -18,7 +18,7 @@
     
     id <IJKMediaPlayback> player = [[IJKFFMoviePlayerController alloc] initWithContentURL:self.url withOptions:options];
     
-    player.scalingMode = IJKMPMovieScalingModeAspectFill;
+    player.scalingMode = IJKMPMovieScalingModeAspectFit;
     player.shouldAutoplay = YES;
     
     return player;

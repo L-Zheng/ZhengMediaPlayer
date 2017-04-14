@@ -24,8 +24,9 @@
         [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
 #endif
         
-        //检查版本
-        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
+        //检查版本  调试时打开下句代码
+//        [IJKFFMoviePlayerController checkIfFFmpegVersionMatch:YES];
+        
         //     [IJKFFMoviePlayerController checkIfPlayerVersionMatch:YES major:1 minor:0 micro:0];
     }
     return self;
@@ -44,6 +45,7 @@
 - (UIView *)playerView{
     if (!_playerView) {
         _playerView = self.player.view;
+        _playerView.backgroundColor = [UIColor redColor];
     }
     return _playerView;
 }

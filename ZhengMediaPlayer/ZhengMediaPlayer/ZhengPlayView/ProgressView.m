@@ -31,64 +31,6 @@
 
 @implementation ProgressView
 
-#pragma mark - getter
-
-- (UIView *)bgView{
-    if (!_bgView) {
-        _bgView = [[UIView alloc] initWithFrame:self.bounds];
-        
-        _bgView.backgroundColor = [UIColor clearColor];
-        
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewTapGesture:)];
-        [_bgView addGestureRecognizer:tapGesture];
-    }
-    return _bgView;
-}
-
-- (UIView *)bgProgressView{
-    if (!_bgProgressView) {
-        CGFloat bgProgressViewH = ProgressViewH;
-        CGFloat bgProgressViewW = self.bounds.size.width;
-        CGFloat bgProgressViewY = (self.bounds.size.height -bgProgressViewH) * 0.5;
-        
-        _bgProgressView = [[UIView alloc] initWithFrame:CGRectMake(0, bgProgressViewY, bgProgressViewW, bgProgressViewH)];
-        _bgProgressView.backgroundColor = [UIColor orangeColor];
-        _bgProgressView.userInteractionEnabled = NO;
-    }
-    return _bgProgressView;
-}
-
-- (UIButton *)indicatorButton{
-    if (!_indicatorButton) {
-        _indicatorButton = [[UIButton alloc] initWithFrame:CGRectMake(-IndicatorButtonW * 0.5, 0, IndicatorButtonW, IndicatorButtonH)];
-        _indicatorButton.backgroundColor = [UIColor whiteColor];
-        _indicatorButton.clipsToBounds = YES;
-        _indicatorButton.layer.cornerRadius = _indicatorButton.bounds.size.height * 0.5;
-        _indicatorButton.adjustsImageWhenHighlighted = NO;
-        
-        [_indicatorButton setImage:[UIImage imageNamed:@"indicator_btn1"] forState:UIControlStateNormal];
-        
-        [_indicatorButton addTarget:self action:@selector(indicatorButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(indicatorButtonPanGesture:)];
-        
-        [_indicatorButton addGestureRecognizer:panGesture];
-    }
-    return _indicatorButton;
-}
-
-- (UIView *)progressView{
-    if (!_progressView) {
-        CGFloat progressViewH = ProgressViewH;
-        CGFloat progressViewY = (self.bounds.size.height - progressViewH) * 0.5;
-        
-        _progressView = [[UIView alloc] initWithFrame:CGRectMake(0, progressViewY, 0, progressViewH)];
-        _progressView.backgroundColor = [UIColor cyanColor];
-        _progressView.userInteractionEnabled = NO;
-    }
-    return _progressView;
-}
-
 #pragma mark - init
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -105,7 +47,81 @@
     return self;
 }
 
+#pragma mark - getter
+
+- (UIView *)bgView{
+    if (!_bgView) {
+        _bgView = [[UIView alloc] init];
+        _bgView.backgroundColor = [UIColor clearColor];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bgViewTapGesture:)];
+        [_bgView addGestureRecognizer:tapGesture];
+    }
+    return _bgView;
+}
+
+- (UIView *)bgProgressView{
+    if (!_bgProgressView) {
+        _bgProgressView = [[UIView alloc] init];
+        _bgProgressView.backgroundColor = [UIColor orangeColor];
+        _bgProgressView.userInteractionEnabled = NO;
+    }
+    return _bgProgressView;
+}
+
+- (UIView *)progressView{
+    if (!_progressView) {
+        _progressView = [[UIView alloc] init];
+        _progressView.backgroundColor = [UIColor cyanColor];
+        _progressView.userInteractionEnabled = NO;
+    }
+    return _progressView;
+}
+
+- (UIButton *)indicatorButton{
+    if (!_indicatorButton) {
+        _indicatorButton = [[UIButton alloc] init];
+        _indicatorButton.backgroundColor = [UIColor whiteColor];
+        _indicatorButton.clipsToBounds = YES;
+        _indicatorButton.adjustsImageWhenHighlighted = NO;
+        
+        [_indicatorButton setImage:[UIImage imageNamed:@"indicator_btn1"] forState:UIControlStateNormal];
+        
+        [_indicatorButton addTarget:self action:@selector(indicatorButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(indicatorButtonPanGesture:)];
+        
+        [_indicatorButton addGestureRecognizer:panGesture];
+    }
+    return _indicatorButton;
+}
+
 #pragma mark - setter
+
+//布局子空间位置  不能放在layoutSubview中 因为改变进度条的宽度时会在此调用此方法
+//              不能放在initWithFrame中 因为初始化的时候可能没有设置frame
+// 此方法会在 self = [super initWithFrame:frame];  执行后立即执行  外界设置frame后执行
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
+    
+    self.bgView.frame = self.bounds;
+    
+    CGFloat bgProgressViewH = ProgressViewH;
+    CGFloat bgProgressViewW = self.bounds.size.width;
+    CGFloat bgProgressViewY = (self.bounds.size.height -bgProgressViewH) * 0.5;
+    self.bgProgressView.frame = CGRectMake(0, bgProgressViewY, bgProgressViewW, bgProgressViewH);
+    
+    CGFloat progressViewH = ProgressViewH;
+    CGFloat progressViewY = (self.bounds.size.height - progressViewH) * 0.5;
+    CGFloat progressViewW = self.progressView.width;
+    self.progressView.frame = CGRectMake(0, progressViewY, progressViewW, progressViewH);
+    
+    self.indicatorButton.frame = CGRectMake(self.indicatorButton.centerX - IndicatorButtonW * 0.5, 0, IndicatorButtonW, IndicatorButtonH);
+    self.indicatorButton.layer.cornerRadius = self.indicatorButton.bounds.size.height * 0.5;
+    
+    //设置进度条的位置
+    self.value = self.value;
+}
 
 - (void)setValue:(float)value{
     _value = value;

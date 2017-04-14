@@ -13,12 +13,13 @@
 #import "ZhengNotificationTool.h"
 #import "ZhengLivePlayer.h"
 #import "ZhengLocalPlayer.h"
+#import "ZhengM3U8Player.h"
+#import "ZhengNetWork.h"
 #import "UIView+ZhengExtension.h"
 #import "ZhengProgressView.h"
 #import "ZhengTimeLabel.h"
 #import "ZhengVolumeView.h"
 #import "ZhengPlayView.h"
-#import "ZhengFullPlayVC.h"
 #import "ZhengPlayerProtocol.h"
 
 

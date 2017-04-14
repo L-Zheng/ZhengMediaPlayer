@@ -12,6 +12,11 @@
 
 @property (nonatomic, strong) ZhengPlayView *zhengPlayView;
 
+//全屏旋转
+@property (nonatomic,strong) UIView *originPlayViewSuperView;
+
+@property (nonatomic,assign) CGRect originPlayViewFrame;
+
 @end
 
 @implementation LocalMediaViewController
@@ -27,9 +32,15 @@
         CGFloat zhengPlayViewW = self.view.bounds.size.width;
         CGFloat zhengPlayViewH = (zhengPlayViewW - 40) / scale + 40;
         _zhengPlayView = [[ZhengPlayView alloc] initWithFrame:CGRectMake(zhengPlayViewX, zhengPlayViewY, self.view.bounds.size.width, zhengPlayViewH) url:self.filePathUrl playViewType:PlayViewType_Local scale:scale];
-        
-//        _zhengPlayView.backgroundColor = [UIColor orangeColor];
-//        _zhengPlayView.url = self.filePathUrl;
+    
+        __weak __typeof__(self) weakSelf = self;
+        _zhengPlayView.rotationBlock = ^(ZhengPlayView *zhengPlayView, BOOL isEnterFullScreen) {
+            if (isEnterFullScreen) {
+                [weakSelf enterFullScreen];
+            }else{
+                [weakSelf exitFullScreen];
+            }
+        };
     }
     return _zhengPlayView;
 }
@@ -40,21 +51,9 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self.view addSubview:self.zhengPlayView];
+//    self.filePathUrl = [NSURL fileURLWithPath:@"/Users/zheng/Desktop/[乡村爱Q进行Q]第60集_bd.mp4"];
     
-    __weak __typeof__(self) weakSelf = self;
-
-    self.zhengPlayView.fullBtnBlock = ^{
-        //调整坐标
-        [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionLayoutSubviews animations:^{
-            weakSelf.zhengPlayView.frame = CGRectMake(0, 0, weakSelf.view.bounds.size.height, weakSelf.view.bounds.size.width);
-            weakSelf.zhengPlayView.center = weakSelf.view.center;
-            weakSelf.zhengPlayView.transform = CGAffineTransformMakeRotation(M_PI_2);
-            
-        } completion:^(BOOL finished) {
-            
-        }];
-    };
+    [self.view addSubview:self.zhengPlayView];
 
 }
 
@@ -77,14 +76,79 @@
 
 #pragma mark - UIInterface
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskPortrait;
+- (void)enterFullScreen{
+    
+    ZhengPlayView *zhengPlayView = self.zhengPlayView;
+    
+    zhengPlayView.playViewStatus = PlayViewStatus_Animating;
+    
+    //保存原来的父视图和位置
+    self.originPlayViewSuperView = zhengPlayView.superview;
+    self.originPlayViewFrame = zhengPlayView.frame;
+    
+    //移动到window上
+    CGRect rectInWindow = [zhengPlayView convertRect:zhengPlayView.bounds toView:[UIApplication sharedApplication].keyWindow];
+    [zhengPlayView removeFromSuperview];
+    zhengPlayView.frame = rectInWindow;
+    [[UIApplication sharedApplication].keyWindow addSubview:zhengPlayView];
+    
+    //旋转动画
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        zhengPlayView.transform = CGAffineTransformMakeRotation(M_PI_2);
+        
+        zhengPlayView.bounds = CGRectMake(0, 0, CGRectGetHeight(zhengPlayView.superview.bounds), CGRectGetWidth(zhengPlayView.superview.bounds));
+        zhengPlayView.center = CGPointMake(CGRectGetMidX(zhengPlayView.superview.bounds), CGRectGetMidY(zhengPlayView.superview.bounds));
+        
+        [zhengPlayView handleSubViewFrame];
+        
+    } completion:^(BOOL finished) {
+        zhengPlayView.playViewStatus = PlayViewStatus_FullScreen;
+        
+        [UIApplication sharedApplication].statusBarHidden = YES;
+    }];
+    [self setScreenOrientation:UIInterfaceOrientationLandscapeRight];
 }
 
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-//    return YES;
-//    //    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+- (void)exitFullScreen{
+    ZhengPlayView *zhengPlayView = self.zhengPlayView;
+    
+    zhengPlayView.playViewStatus = PlayViewStatus_Animating;
+    
+    //移动到原来视图上
+    CGRect frame = [self.originPlayViewSuperView convertRect:self.originPlayViewFrame toView:[UIApplication sharedApplication].keyWindow];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        zhengPlayView.transform = CGAffineTransformIdentity;
+        zhengPlayView.frame = frame;
+        [zhengPlayView handleSubViewFrame];
+    } completion:^(BOOL finished) {
+        
+        [zhengPlayView removeFromSuperview];
+        zhengPlayView.frame = self.originPlayViewFrame;
+        [self.originPlayViewSuperView addSubview:zhengPlayView];
+        
+        zhengPlayView.playViewStatus = PlayViewStatus_Portrait;
+        
+        [UIApplication sharedApplication].statusBarHidden = NO;
+        
+        [self setScreenOrientation:UIInterfaceOrientationPortrait];
+    }];
+}
+
+
+- (void)setScreenOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+}
+
+//屏幕旋转调用
+//- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+//    NSLog(@"屏幕旋转完毕");
 //}
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
 
 
 @end

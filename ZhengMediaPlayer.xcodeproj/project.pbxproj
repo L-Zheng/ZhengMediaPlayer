@@ -96,9 +96,9 @@
 		0F3C29D01DFAB7BD001A38F6 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3C29CF1DFAB7BD001A38F6 /* VideoToolbox.framework */; };
 		0F73EC321E121B9100A3BC29 /* ZhengBrightView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F73EC311E121B9100A3BC29 /* ZhengBrightView.m */; };
 		0F73EC3B1E125BF200A3BC29 /* WeChatSight455.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0F73EC3A1E125BF200A3BC29 /* WeChatSight455.mp4 */; };
-		0F73EC3E1E125E8300A3BC29 /* ZhengFullPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F73EC3D1E125E8300A3BC29 /* ZhengFullPlayVC.m */; };
 		0F7B4C861E0D2AAE00AADB72 /* mini_launchFullScreen_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7B4C841E0D2AAE00AADB72 /* mini_launchFullScreen_btn@2x.png */; };
 		0F7B4C871E0D2AAE00AADB72 /* mini_launchFullScreen_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F7B4C851E0D2AAE00AADB72 /* mini_launchFullScreen_btn@3x.png */; };
+		0F7C98E11E9CC93D00795AA0 /* NavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F7C98E01E9CC93D00795AA0 /* NavigationViewController.m */; };
 		0F9F34AF1E8117C200AB16E1 /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F9F34AC1E8117A700AB16E1 /* IJKMediaFramework.framework */; };
 		0FD708351E8F783100A3D756 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD708341E8F783100A3D756 /* ProgressView.m */; };
 		0FD708451E8F9C2E00A3D756 /* ZhengM3U8Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FD708441E8F9C2E00A3D756 /* ZhengM3U8Player.m */; };
@@ -318,10 +318,10 @@
 		0F73EC301E121B9100A3BC29 /* ZhengBrightView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhengBrightView.h; sourceTree = "<group>"; };
 		0F73EC311E121B9100A3BC29 /* ZhengBrightView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhengBrightView.m; sourceTree = "<group>"; };
 		0F73EC3A1E125BF200A3BC29 /* WeChatSight455.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = WeChatSight455.mp4; sourceTree = "<group>"; };
-		0F73EC3C1E125E8300A3BC29 /* ZhengFullPlayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhengFullPlayVC.h; sourceTree = "<group>"; };
-		0F73EC3D1E125E8300A3BC29 /* ZhengFullPlayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhengFullPlayVC.m; sourceTree = "<group>"; };
 		0F7B4C841E0D2AAE00AADB72 /* mini_launchFullScreen_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mini_launchFullScreen_btn@2x.png"; sourceTree = "<group>"; };
 		0F7B4C851E0D2AAE00AADB72 /* mini_launchFullScreen_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mini_launchFullScreen_btn@3x.png"; sourceTree = "<group>"; };
+		0F7C98DF1E9CC93D00795AA0 /* NavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationViewController.h; sourceTree = "<group>"; };
+		0F7C98E01E9CC93D00795AA0 /* NavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationViewController.m; sourceTree = "<group>"; };
 		0F9F34A61E8117A700AB16E1 /* IJKMediaPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IJKMediaPlayer.xcodeproj; path = "../ijkplayer-ios/ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj"; sourceTree = "<group>"; };
 		0FD708331E8F783100A3D756 /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		0FD708341E8F783100A3D756 /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
@@ -676,13 +676,15 @@
 				0F1313BA1E03910600F8FD0E /* LogExtension */,
 				0F1313BD1E03910600F8FD0E /* MJExtension */,
 				0F1313D31E03910600F8FD0E /* ZhengNetWork */,
+				0F1314EC1E03F73A00F8FD0E /* ZhengMediaPlayer */,
 				0F3C295A1DFA7C88001A38F6 /* AppDelegate.h */,
 				0F3C295B1DFA7C88001A38F6 /* AppDelegate.m */,
+				0F7C98DF1E9CC93D00795AA0 /* NavigationViewController.h */,
+				0F7C98E01E9CC93D00795AA0 /* NavigationViewController.m */,
 				0F3C295D1DFA7C89001A38F6 /* ViewController.h */,
 				0F3C295E1DFA7C89001A38F6 /* ViewController.m */,
 				0F1314E61E03EE3C00F8FD0E /* Model.h */,
 				0F1314E71E03EE3C00F8FD0E /* Model.m */,
-				0F1314EC1E03F73A00F8FD0E /* ZhengMediaPlayer */,
 				0F1314BC1E0399AF00F8FD0E /* LiveListVC */,
 				0F1314E21E03ED2B00F8FD0E /* LocalMediaVC */,
 				0FD708491E8F9D8C00A3D756 /* M3U8ListVC */,
@@ -805,8 +807,6 @@
 				0FE44F7E1E10C786003957C6 /* ZhengVolumeView.m */,
 				0F73EC301E121B9100A3BC29 /* ZhengBrightView.h */,
 				0F73EC311E121B9100A3BC29 /* ZhengBrightView.m */,
-				0F73EC3C1E125E8300A3BC29 /* ZhengFullPlayVC.h */,
-				0F73EC3D1E125E8300A3BC29 /* ZhengFullPlayVC.m */,
 			);
 			path = ZhengPlayView;
 			sourceTree = "<group>";
@@ -1014,8 +1014,8 @@
 				0F13140F1E03910600F8FD0E /* ZhengDownloadRequest.m in Sources */,
 				0FE44F741E10C756003957C6 /* ZhengLivePlayer.m in Sources */,
 				0F1314E51E03ED9300F8FD0E /* LocalMediaViewController.m in Sources */,
-				0F73EC3E1E125E8300A3BC29 /* ZhengFullPlayVC.m in Sources */,
 				0FD7084C1E8F9D8C00A3D756 /* M3U8TableViewController.m in Sources */,
+				0F7C98E11E9CC93D00795AA0 /* NavigationViewController.m in Sources */,
 				0F1314271E03911900F8FD0E /* FMDatabaseQueue.m in Sources */,
 				0F13140A1E03910600F8FD0E /* ZhengCacheTool.m in Sources */,
 				0F1314071E03910600F8FD0E /* ZhengCacheCoding.m in Sources */,

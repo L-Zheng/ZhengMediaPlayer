@@ -19,7 +19,7 @@
     id <IJKMediaPlayback> player = [[IJKAVMoviePlayerController alloc] initWithContentURL:self.url];
 //    id <IJKMediaPlayback> player = [[IJKAVMoviePlayerController alloc] initWithContentURL:self.url withOptions:options];
     
-    player.scalingMode = IJKMPMovieScalingModeAspectFill;
+    player.scalingMode = IJKMPMovieScalingModeAspectFit;
     player.shouldAutoplay = YES;
     
     return player;

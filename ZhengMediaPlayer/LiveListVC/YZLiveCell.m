@@ -50,6 +50,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _headImageView.layer.cornerRadius = 5;
     _headImageView.layer.masksToBounds = YES;

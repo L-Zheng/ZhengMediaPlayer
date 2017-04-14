@@ -16,13 +16,29 @@ typedef NS_ENUM(NSInteger, PlayViewType) {
     PlayViewType_NetWork       = 3,
 } NS_ENUM_AVAILABLE_IOS(6_0);
 
+typedef NS_ENUM(NSInteger, PlayViewStatus) {
+    PlayViewStatus_Portrait      = 0,
+    PlayViewStatus_Animating       = 1,
+    PlayViewStatus_FullScreen       = 2,
+} NS_ENUM_AVAILABLE_IOS(6_0);
+
 @interface ZhengPlayView : UIView<ZhengPlayerProtocol>
 
-@property (nonatomic,copy) void(^fullBtnBlock)();
-
 #pragma mark - func
-
+/** 外界调用必须传入位置 */
 - (instancetype)initWithFrame:(CGRect)frame url:(NSURL *)url playViewType:(PlayViewType)playViewType scale:(CGFloat)scale;
+
+- (void)handleSubViewFrame;
+
+#pragma mark - 传递属性
+
+/** 全屏旋转回调 */
+@property (nonatomic,copy) void (^rotationBlock) (ZhengPlayView *zhengPlayView, BOOL isEnterFullScreen);
+
+#pragma mark - 获取属性
+
+/** 全屏状态 */
+@property (nonatomic,assign) PlayViewStatus playViewStatus;
 
 #pragma mark - ZhengPlayerProtocol
 
