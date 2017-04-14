@@ -6,8 +6,6 @@
 //  Copyright © 2016年 李保征. All rights reserved.
 //
 
-//用于本地播放的类  IJKFFMoviePlayerController RTMP协议的视频
-
 #import "ZhengLocalPlayer.h"
 
 @implementation ZhengLocalPlayer

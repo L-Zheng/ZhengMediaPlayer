@@ -6,7 +6,16 @@
 //  Copyright © 2016年 李保征. All rights reserved.
 //
 
-//IJKFFMoviePlayerController  可播放 直播 网络视频 本地视频
+//IJKFFMoviePlayerController  可播放 直播 本地视频 网络视频
+
+//([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"] || [scheme isEqualToString:@"rtmp"])
+
+//用于直播的类  IJKFFMoviePlayerController RTMP协议的视频
+//用于本地播放的类  IJKFFMoviePlayerController RTMP协议的视频
+//用于M3U8播放的类  IJKFFMoviePlayerController RTMP协议的视频
+//用于网络视频播放的类  IJKAVMoviePlayerController IJKFFMoviePlayerController
+
+//ijk暂时不支持边下边播功能 http://blog.csdn.net/codingfire/article/details/53839513
 
 #import <Foundation/Foundation.h>
 #import <IJKMediaFramework/IJKMediaFramework.h>

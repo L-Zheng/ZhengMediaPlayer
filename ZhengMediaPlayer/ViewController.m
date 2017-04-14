@@ -11,6 +11,7 @@
 #import "LocalMediaViewController.h"
 #import "M3U8TableViewController.h"
 #import "NetWorkPlayViewController.h"
+#import "CaptureLiveVC.h"
 #import "Model.h"
 
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -52,7 +53,11 @@
         model4.title = @"网络视频播放";
         model4.modelType = ModelType_NetWork;
         
-        _dataArray = [NSMutableArray arrayWithArray:@[model1,model2,model3,model4]];
+        Model *model5 = [[Model alloc] init];
+        model5.title = @"视频采集";
+        model5.modelType = ModelType_CaptureLive;
+        
+        _dataArray = [NSMutableArray arrayWithArray:@[model1,model2,model3,model4,model5]];
     }
     return _dataArray;
 }
@@ -118,6 +123,12 @@
             NetWorkPlayViewController *vc = [[NetWorkPlayViewController alloc] init];
 //          @"https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
             vc.url = [NSURL URLWithString:@"http://flv2.bn.netease.com/videolib3/1602/24/AnIoH5484/SD/AnIoH5484-mobile.mp4"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
+            
+        case ModelType_CaptureLive:{
+            CaptureLiveVC *vc = [[CaptureLiveVC alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

@@ -6,8 +6,6 @@
 //  Copyright © 2017年 李保征. All rights reserved.
 //
 
-//用于M3U8播放的类  IJKFFMoviePlayerController RTMP协议的视频
-
 #import "ZhengM3U8Player.h"
 
 @implementation ZhengM3U8Player

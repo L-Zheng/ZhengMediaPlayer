@@ -73,6 +73,8 @@
 		0F23C4F81E091E65005A9390 /* indicator_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F23C4F61E091E65005A9390 /* indicator_btn.png */; };
 		0F23C4F91E091E65005A9390 /* indicator_btn1.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F23C4F71E091E65005A9390 /* indicator_btn1.png */; };
 		0F23C6591E0943A7005A9390 /* UIView+ZhengExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F23C6581E0943A7005A9390 /* UIView+ZhengExtension.m */; };
+		0F2DED591EA0B7B300AFABE8 /* CaptureLiveVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F2DED581EA0B7B300AFABE8 /* CaptureLiveVC.m */; };
+		0F2DED5B1EA0B8B600AFABE8 /* focus.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F2DED5A1EA0B8B600AFABE8 /* focus.png */; };
 		0F3C29591DFA7C88001A38F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3C29581DFA7C88001A38F6 /* main.m */; };
 		0F3C295C1DFA7C88001A38F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3C295B1DFA7C88001A38F6 /* AppDelegate.m */; };
 		0F3C295F1DFA7C89001A38F6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3C295E1DFA7C89001A38F6 /* ViewController.m */; };
@@ -286,6 +288,9 @@
 		0F23C4F71E091E65005A9390 /* indicator_btn1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = indicator_btn1.png; sourceTree = "<group>"; };
 		0F23C6571E0943A7005A9390 /* UIView+ZhengExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZhengExtension.h"; sourceTree = "<group>"; };
 		0F23C6581E0943A7005A9390 /* UIView+ZhengExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ZhengExtension.m"; sourceTree = "<group>"; };
+		0F2DED571EA0B7B300AFABE8 /* CaptureLiveVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureLiveVC.h; sourceTree = "<group>"; };
+		0F2DED581EA0B7B300AFABE8 /* CaptureLiveVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureLiveVC.m; sourceTree = "<group>"; };
+		0F2DED5A1EA0B8B600AFABE8 /* focus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = focus.png; sourceTree = "<group>"; };
 		0F3C29541DFA7C88001A38F6 /* ZhengMediaPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZhengMediaPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F3C29581DFA7C88001A38F6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0F3C295A1DFA7C88001A38F6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -645,6 +650,16 @@
 			path = Public;
 			sourceTree = "<group>";
 		};
+		0F2DED541EA0B7A900AFABE8 /* CaptureLiveVC */ = {
+			isa = PBXGroup;
+			children = (
+				0F2DED571EA0B7B300AFABE8 /* CaptureLiveVC.h */,
+				0F2DED581EA0B7B300AFABE8 /* CaptureLiveVC.m */,
+				0F2DED5A1EA0B8B600AFABE8 /* focus.png */,
+			);
+			path = CaptureLiveVC;
+			sourceTree = "<group>";
+		};
 		0F3C294B1DFA7C88001A38F6 = {
 			isa = PBXGroup;
 			children = (
@@ -689,6 +704,7 @@
 				0F1314E21E03ED2B00F8FD0E /* LocalMediaVC */,
 				0FD708491E8F9D8C00A3D756 /* M3U8ListVC */,
 				0FD708581E8FA2C100A3D756 /* NetWorkVC */,
+				0F2DED541EA0B7A900AFABE8 /* CaptureLiveVC */,
 				0FECA83C1DFEB28D00B1285A /* PrefixHeader.pch */,
 				0F3C29601DFA7C89001A38F6 /* Main.storyboard */,
 				0F3C29661DFA7C89001A38F6 /* Assets.xcassets */,
@@ -953,6 +969,7 @@
 				0FE44F881E10FFA6003957C6 /* full_pause_btn@2x.png in Resources */,
 				0FE44F8A1E10FFA6003957C6 /* full_play_btn@2x.png in Resources */,
 				0F73EC3B1E125BF200A3BC29 /* WeChatSight455.mp4 in Resources */,
+				0F2DED5B1EA0B8B600AFABE8 /* focus.png in Resources */,
 				0FE44F891E10FFA6003957C6 /* full_pause_btn@3x.png in Resources */,
 				0FD708571E8FA29A00A3D756 /* LiveViewController.xib in Resources */,
 				0F3C29621DFA7C89001A38F6 /* Main.storyboard in Resources */,
@@ -1039,6 +1056,7 @@
 				0F1314021E03910600F8FD0E /* NSObject+MJClass.m in Sources */,
 				0F1314E81E03EE3C00F8FD0E /* Model.m in Sources */,
 				0F1314261E03911900F8FD0E /* FMDatabasePool.m in Sources */,
+				0F2DED591EA0B7B300AFABE8 /* CaptureLiveVC.m in Sources */,
 				0F1314A71E03962100F8FD0E /* UIImage+GIF.m in Sources */,
 				0F1314CA1E0399AF00F8FD0E /* YZLiveItem.m in Sources */,
 				0FE44F811E10C786003957C6 /* ZhengTimeLabel.m in Sources */,

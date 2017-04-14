@@ -6,8 +6,6 @@
 //  Copyright © 2017年 李保征. All rights reserved.
 //
 
-//用于网络视频播放的类  IJKAVMoviePlayerController
-
 #import "ZhengNetWorkPlayer.h"
 
 @implementation ZhengNetWorkPlayer
