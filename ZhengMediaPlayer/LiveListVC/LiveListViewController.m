@@ -102,10 +102,21 @@ static NSString * const ID = @"cell";
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
-    [UIView animateWithDuration:1 animations:^{
-        cell.layer.transform = CATransform3DMakeScale(1, 1, 1);
-    }];
+//    cell.layer.transform = CATransform3DMakeScale(0.1, 0.1, 1);
+//    [UIView animateWithDuration:1 animations:^{
+//        cell.layer.transform = CATransform3DMakeScale(1, 1, 1);
+//    }];
+    
+    
+    //动画效果
+    //    CATransition *animation = [CATransition animation];
+    //    animation.duration = 0.75f;
+    //    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    //    animation.fillMode = kCAFillModeForwards;
+    //    animation.type = kCATransitionPush;
+    //    animation.subtype = kCATransitionFromRight;
+    //
+    //    [cell.layer addAnimation:animation forKey:@"animation"];
 }
 
 
